@@ -1,0 +1,180 @@
+@model Empleado
+
+<h2>Crear Empleado</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label asp-for="TipoIdentificacion" class="form-label"></label>
+            <select asp-for="TipoIdentificacion" class="form-select" asp-items="@(Html.GetEnumSelectList(typeof(TipoIdentificacionEmpleado)))"></select>
+            <span asp-validation-for="TipoIdentificacion" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Identificacion" class="form-label"></label>
+            <input asp-for="Identificacion" class="form-control" />
+            <span asp-validation-for="Identificacion" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="PrimerApellido" class="form-label"></label>
+            <input asp-for="PrimerApellido" class="form-control" />
+            <span asp-validation-for="PrimerApellido" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label asp-for="SegundoApellido" class="form-label"></label>
+            <input asp-for="SegundoApellido" class="form-control" />
+            <span asp-validation-for="SegundoApellido" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="DireccionExacta" class="form-label"></label>
+            <input asp-for="DireccionExacta" class="form-control" />
+            <span asp-validation-for="DireccionExacta" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Categoria" class="form-label"></label>
+            <select asp-for="Categoria" class="form-select" asp-items="Html.GetEnumSelectList<CategoriaEmpleado>()"></select>
+            <span asp-validation-for="Categoria" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label asp-for="FechaNacimiento" class="form-label"></label>
+            <input asp-for="FechaNacimiento" type="date" class="form-control" />
+            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="FechaIngreso" class="form-label"></label>
+            <input asp-for="FechaIngreso" type="date" class="form-control" />
+            <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="SalarioMensual" class="form-label"></label>
+            <input asp-for="SalarioMensual" type="number" step="0.01" class="form-control" />
+            <span asp-validation-for="SalarioMensual" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Provincia</label>
+            <select id="ProvinciaSelect" name="Provincia" class="form-select">
+                <option value="">-- Seleccione Provincia --</option>
+                @if (ViewBag.Provincias != null)
+                {
+                    foreach (var prov in ViewBag.Provincias)
+                    {
+                        var cantonesJson = "[";
+                        var cantonesList = ((IEnumerable<dynamic>)prov.Cantones).ToList();
+                        for (int i = 0; i < cantonesList.Count; i++)
+                        {
+                            var c = cantonesList[i];
+                            var distritosList = ((IEnumerable<dynamic>)c.Distritos).Select(d => (string)d).ToList();
+                            var distritosJson = "[" + string.Join(",", distritosList.Select(d => "\"" + d.Replace("\"", "") + "\"")) + "]";
+                            cantonesJson += "{\"nombre\":\"" + ((string)c.Nombre).Replace("\"", "") + "\",\"distritos\":" + distritosJson + "}";
+                            if (i < cantonesList.Count - 1) { cantonesJson += ","; }
+                        }
+                        cantonesJson += "]";
+
+                        <option value="@prov.Nombre" data-cantones='@cantonesJson'>@prov.Nombre</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="form-label">Cantón</label>
+            <select id="CantonSelect" name="Canton" class="form-select">
+                <option value="">-- Seleccione Cantón --</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Distrito</label>
+            <select id="DistritoSelect" name="Distrito" class="form-select">
+                <option value="">-- Seleccione Distrito --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+    </div>
+</form>
+
+ @* Uso de IA: Se utilizo Claude para generar la logica de los combos anidados
+ de Provincia, Canton y Distrito, incluyendo el JavaScript que lee los
+ atributos data-cantones y data-distritos para llenar dinamicamente las
+ opciones segun la seleccion anterior.  *@
+
+@section Scripts {
+    <script>
+        (function() {
+            const provSelect = document.getElementById('ProvinciaSelect');
+            const cantonSelect = document.getElementById('CantonSelect');
+            const distritoSelect = document.getElementById('DistritoSelect');
+
+            function clearSelect(sel, placeholder) {
+                sel.innerHTML = '';
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.textContent = placeholder || '-- Seleccione --';
+                sel.appendChild(opt);
+            }
+
+            provSelect && provSelect.addEventListener('change', function() {
+                clearSelect(cantonSelect, '-- Seleccione Cantón --');
+                clearSelect(distritoSelect, '-- Seleccione Distrito --');
+
+                const opt = provSelect.options[provSelect.selectedIndex];
+                if (!opt || !opt.dataset.cantones) return;
+
+                let cantones;
+                try { cantones = JSON.parse(opt.dataset.cantones); } catch (e) { cantones = null; }
+                if (!cantones) return;
+
+                cantones.forEach(c => {
+                    const o = document.createElement('option');
+                    o.value = c.nombre;
+                    o.textContent = c.nombre;
+                    o.setAttribute('data-distritos', JSON.stringify(c.distritos || []));
+                    cantonSelect.appendChild(o);
+                });
+            });
+
+            cantonSelect && cantonSelect.addEventListener('change', function() {
+                clearSelect(distritoSelect, '-- Seleccione Distrito --');
+                const opt = cantonSelect.options[cantonSelect.selectedIndex];
+                if (!opt || !opt.dataset.distritos) return;
+
+                let distritos;
+                try { distritos = JSON.parse(opt.dataset.distritos); } catch (e) { distritos = null; }
+                if (!distritos) return;
+
+                distritos.forEach(d => {
+                    const o = document.createElement('option');
+                    o.value = d;
+                    o.textContent = d;
+                    distritoSelect.appendChild(o);
+                });
+            });
+        })();
+    </script>
+}

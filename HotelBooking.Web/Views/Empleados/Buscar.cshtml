@@ -1,0 +1,59 @@
+@model Empleado?
+
+<h2>Buscar Empleado</h2>
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Identificación</dt>
+                <dd class="col-sm-9">@Model.Identificacion</dd>
+
+                <dt class="col-sm-3">Nombre</dt>
+                <dd class="col-sm-9">@Model.Nombre</dd>
+
+                <dt class="col-sm-3">Primer Apellido</dt>
+                <dd class="col-sm-9">@Model.PrimerApellido</dd>
+
+                <dt class="col-sm-3">Segundo Apellido</dt>
+                <dd class="col-sm-9">@Model.SegundoApellido</dd>
+
+                <dt class="col-sm-3">Fecha de nacimiento</dt>
+                <dd class="col-sm-9">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-sm-3">Fecha de ingreso</dt>
+                <dd class="col-sm-9">@Model.FechaIngreso.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-sm-3">Salario mensual</dt>
+                <dd class="col-sm-9">@String.Format("{0:C}", Model.SalarioMensual)</dd>
+
+                <dt class="col-sm-3">Categoría</dt>
+                <dd class="col-sm-9">@Model.Categoria</dd>
+
+                <dt class="col-sm-3">Provincia</dt>
+                <dd class="col-sm-9">@Model.Provincia</dd>
+
+                <dt class="col-sm-3">Cantón</dt>
+                <dd class="col-sm-9">@Model.Canton</dd>
+
+                <dt class="col-sm-3">Distrito</dt>
+                <dd class="col-sm-9">@Model.Distrito</dd>
+
+                <dt class="col-sm-3">Dirección</dt>
+                <dd class="col-sm-9">@Model.DireccionExacta</dd>
+            </dl>
+
+            <a asp-action="Edit" asp-route-identificacion="@Model.Identificacion" class="btn btn-primary me-2">Editar</a>
+            <a asp-action="Delete" asp-route-identificacion="@Model.Identificacion" class="btn btn-danger">Eliminar</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        No se encontró ningún empleado con esa identificación.
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

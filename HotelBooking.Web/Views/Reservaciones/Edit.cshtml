@@ -1,0 +1,64 @@
+@model Reservacion
+
+<h2>Editar Reservación</h2>
+
+<span asp-validation-summary="ModelOnly" class="text-danger"></span>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+
+    <input asp-for="ID" type="hidden" />
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="IDCliente" class="form-label"></label>
+            <input asp-for="IDCliente" class="form-control" />
+            <span asp-validation-for="IDCliente" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="IDHabitacion" class="form-label"></label>
+            <input asp-for="IDHabitacion" type="number" class="form-control" />
+            <span asp-validation-for="IDHabitacion" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="FechaInicio" class="form-label"></label>
+            <input asp-for="FechaInicio" type="date" class="form-control" />
+            <span asp-validation-for="FechaInicio" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="FechaSalida" class="form-label"></label>
+            <input asp-for="FechaSalida" type="date" class="form-control" />
+            <span asp-validation-for="FechaSalida" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SolicitudesEspeciales" class="form-label"></label>
+        <textarea asp-for="SolicitudesEspeciales" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="SolicitudesEspeciales" class="text-danger"></span>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label asp-for="PorcentajeDescuento" class="form-label"></label>
+            <input asp-for="PorcentajeDescuento" type="number" step="0.01" class="form-control" />
+            <span asp-validation-for="PorcentajeDescuento" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="Estado" class="form-label"></label>
+            <select asp-for="Estado" class="form-select" asp-items="@(Html.GetEnumSelectList(typeof(EstadoReservacion)))"></select>
+            <span asp-validation-for="Estado" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+    </div>
+</form>

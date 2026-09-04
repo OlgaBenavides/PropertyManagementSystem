@@ -1,0 +1,38 @@
+@model Cliente?
+
+<h2>Buscar Cliente</h2>
+
+@if (Model != null)
+{
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Identificación</dt>
+                <dd class="col-sm-9">@Model.Identificacion</dd>
+
+                <dt class="col-sm-3">Nombre</dt>
+                <dd class="col-sm-9">@Model.Nombre</dd>
+
+                <dt class="col-sm-3">Primer Apellido</dt>
+                <dd class="col-sm-9">@Model.PrimerApellido</dd>
+
+                <dt class="col-sm-3">Segundo Apellido</dt>
+                <dd class="col-sm-9">@Model.SegundoApellido</dd>
+
+                <dt class="col-sm-3">Fecha de nacimiento</dt>
+                <dd class="col-sm-9">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</dd>
+            </dl>
+
+            <a asp-action="Edit" asp-route-id="@Model.Identificacion" class="btn btn-primary me-2">Editar</a>
+            <a asp-action="Delete" asp-route-id="@Model.Identificacion" class="btn btn-danger">Eliminar</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        No se encontró ningún cliente con esa identificación.
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

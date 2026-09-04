@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/HotelBooking.Web/">
+    <Project Path="HotelBooking.Web/HotelBooking.web.csproj" />
+  </Folder>
+  <Project Path="HotelBooking.Api/HotelBooking.Api.csproj" />
+  <Project Path="HotelBooking.Data/HotelBooking.Data.csproj" />
+</Solution>

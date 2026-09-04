@@ -1,0 +1,50 @@
+Reemplaza todo el contenido de ese archivo con esto.
+html@model List<Reservacion>
+
+<h2>Resultados de búsqueda</h2>
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Habitación</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Salida</th>
+                <th>Tarifa</th>
+                <th>Monto Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.IDCliente</td>
+                    <td>@item.IDHabitacion</td>
+                    <td>@item.FechaInicio.ToString("dd/MM/yyyy")</td>
+                    <td>@item.FechaSalida.ToString("dd/MM/yyyy")</td>
+                    <td>@item.TarifaReservacion.ToString("C")</td>
+                    <td>@item.MontoTotal.ToString("C")</td>
+                    <td>@item.Estado</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-primary me-1">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        No se encontraron reservaciones con esos criterios.
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

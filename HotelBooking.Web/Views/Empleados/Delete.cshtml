@@ -1,0 +1,61 @@
+@model Empleado
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<h2>Eliminar Empleado</h2>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Identificación</dt>
+            <dd class="col-sm-9">@Model?.Identificacion</dd>
+
+            <dt class="col-sm-3">Nombre</dt>
+            <dd class="col-sm-9">@Model?.Nombre</dd>
+
+            <dt class="col-sm-3">Primer Apellido</dt>
+            <dd class="col-sm-9">@Model?.PrimerApellido</dd>
+
+            <dt class="col-sm-3">Segundo Apellido</dt>
+            <dd class="col-sm-9">@Model?.SegundoApellido</dd>
+
+            <dt class="col-sm-3">Fecha de nacimiento</dt>
+            <dd class="col-sm-9">@Model?.FechaNacimiento.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Fecha de ingreso</dt>
+            <dd class="col-sm-9">@Model?.FechaIngreso.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Salario mensual</dt>
+            <dd class="col-sm-9">@String.Format("{0:C}", Model?.SalarioMensual)</dd>
+
+            <dt class="col-sm-3">Categoría</dt>
+            <dd class="col-sm-9">@Model?.Categoria</dd>
+
+            <dt class="col-sm-3">Provincia</dt>
+            <dd class="col-sm-9">@Model?.Provincia</dd>
+
+            <dt class="col-sm-3">Cantón</dt>
+            <dd class="col-sm-9">@Model?.Canton</dd>
+
+            <dt class="col-sm-3">Distrito</dt>
+            <dd class="col-sm-9">@Model?.Distrito</dd>
+
+            <dt class="col-sm-3">Dirección</dt>
+            <dd class="col-sm-9">@Model?.DireccionExacta</dd>
+        </dl>
+
+        <p class="text-danger">¿Está seguro que desea eliminar este empleado?</p>
+
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="Identificacion" type="hidden" />
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+        </form>
+    </div>
+</div>

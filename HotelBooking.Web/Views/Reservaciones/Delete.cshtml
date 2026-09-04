@@ -1,0 +1,58 @@
+@model Reservacion
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<h2>Eliminar Reservación</h2>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">ID</dt>
+            <dd class="col-sm-9">@Model?.ID</dd>
+
+            <dt class="col-sm-3">ID Cliente</dt>
+            <dd class="col-sm-9">@Model?.IDCliente</dd>
+
+            <dt class="col-sm-3">ID Habitación</dt>
+            <dd class="col-sm-9">@Model?.IDHabitacion</dd>
+
+            <dt class="col-sm-3">Fecha de reservación</dt>
+            <dd class="col-sm-9">@Model?.FechaReservacion.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Fecha inicio</dt>
+            <dd class="col-sm-9">@Model?.FechaInicio.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Fecha salida</dt>
+            <dd class="col-sm-9">@Model?.FechaSalida.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Tarifa</dt>
+            <dd class="col-sm-9">@String.Format("{0:C}", Model?.TarifaReservacion)</dd>
+
+            <dt class="col-sm-3">Porcentaje descuento</dt>
+            <dd class="col-sm-9">@Model?.PorcentajeDescuento</dd>
+
+            <dt class="col-sm-3">Monto total</dt>
+            <dd class="col-sm-9">@String.Format("{0:C}", Model?.MontoTotal)</dd>
+
+            <dt class="col-sm-3">Estado</dt>
+            <dd class="col-sm-9">@Model?.Estado</dd>
+
+            <dt class="col-sm-3">Solicitudes especiales</dt>
+            <dd class="col-sm-9">@Model?.SolicitudesEspeciales</dd>
+        </dl>
+
+        <p class="text-danger">¿Está seguro que desea eliminar esta reservación?</p>
+
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="ID" type="hidden" />
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+        </form>
+    </div>
+</div>

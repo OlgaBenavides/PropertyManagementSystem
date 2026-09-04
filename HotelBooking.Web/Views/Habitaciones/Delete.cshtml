@@ -1,0 +1,40 @@
+@model Habitacion
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<h2>Eliminar Habitación</h2>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Número de habitación</dt>
+            <dd class="col-sm-9">@Model?.NumeroHabitacion</dd>
+
+            <dt class="col-sm-3">Tipo de habitación</dt>
+            <dd class="col-sm-9">@Model?.TipoHabitacion</dd>
+
+            <dt class="col-sm-3">Tarifa por noche</dt>
+            <dd class="col-sm-9">@String.Format("{0:C}", Model?.TarifaPorNoche)</dd>
+
+            <dt class="col-sm-3">TV Satelital</dt>
+            <dd class="col-sm-9">@(Model?.TvSatelital == true ? "Sí" : "No")</dd>
+
+            <dt class="col-sm-3">Pendientes de mantenimiento</dt>
+            <dd class="col-sm-9">@Model?.PendientesMantenimiento</dd>
+        </dl>
+
+        <p class="text-danger">¿Está seguro que desea eliminar esta habitación?</p>
+
+        <form asp-action="Delete" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="NumeroHabitacion" type="hidden" />
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+        </form>
+    </div>
+</div>

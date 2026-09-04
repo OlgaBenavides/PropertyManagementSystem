@@ -1,0 +1,50 @@
+@model List<Habitacion>
+
+<h2>Habitaciones</h2>
+
+<div class="d-flex justify-content-between mb-3">
+    <a asp-action="Create" class="btn btn-success">Crear nueva habitación</a>
+
+    <form asp-action="Buscar" method="get" class="d-flex" role="search">
+        <input type="number" name="numeroHabitacion" class="form-control me-2" placeholder="Buscar por número" />
+        <button type="submit" class="btn btn-outline-primary">Buscar</button>
+    </form>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Número</th>
+            <th>Tipo</th>
+            <th>Tarifa por noche</th>
+            <th>TV Satelital</th>
+            <th>Pendientes mantenimiento</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (Model != null && Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NumeroHabitacion</td>
+                <td>@item.TipoHabitacion</td>
+                <td>@String.Format("{0:C}", item.TarifaPorNoche)</td>
+                <td>@(item.TvSatelital ? "Sí" : "No")</td>
+                <td>@(string.IsNullOrEmpty(item.PendientesMantenimiento) ? "Ninguno" : item.PendientesMantenimiento)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-numeroHabitacion="@item.NumeroHabitacion" class="btn btn-sm btn-primary me-1">Editar</a>
+                    <a asp-action="Delete" asp-route-numeroHabitacion="@item.NumeroHabitacion" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="6" class="text-center">No hay habitaciones para mostrar.</td>
+        </tr>
+    }
+    </tbody>
+</table>
